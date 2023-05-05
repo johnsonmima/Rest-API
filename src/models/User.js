@@ -1,4 +1,3 @@
-require("dotenv").config();
 const mongoose = require("mongoose");
 const validatorPackage = require("validator");
 const bcrypt = require("bcryptjs");
@@ -36,14 +35,13 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    // delete password from the response
-    // delete tokes from the response
+    // for deleting fields we don't want to send back
     toJSON: {
       transform(doc, ret) {
         delete ret.password;
         delete ret.tokens;
         delete ret.email;
-        delete avatar;
+        delete ret.avatar;
         delete ret.updatedAt;
         delete ret.createdAt;
         delete ret.__v;

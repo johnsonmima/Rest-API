@@ -62,13 +62,8 @@ route.post("/logoutAll", authenticate, async (req, res) => {
 
 // delete another user
 route.delete("/:id", authenticate, async (req, res) => {
-  const _id = req.params.id;
   try {
-    // get ID
-    if (!_id) {
-      return res.status(400).json({ error: "ID is missing" });
-    }
-
+    const _id = req.params.id;
     const user = await User.findByIdAndDelete({ _id });
     // delete all task
     await user.deleteAllTask();
@@ -85,8 +80,6 @@ route.delete("/:id", authenticate, async (req, res) => {
 
 // update
 route.patch("/:id", authenticate, async (req, res) => {
-  const _id = req.params.id;
-
   // what users are allowed to update
   const update = Object.keys(req.body);
   const allowedUpdates = ["email", "name", "password"];
@@ -99,14 +92,10 @@ route.patch("/:id", authenticate, async (req, res) => {
     return res.status(400).json({ error: "Invalid updates" });
   }
 
-  // get ID
-  if (!_id) {
-    return res.status(400).json({ error: "ID is missing" });
-  }
-
   try {
+    const { id } = req.params;
     // options set new = true to return the new user
-    const user = await User.findById({ _id });
+    const user = await User.findById({ _id: id });
 
     // if no user
     if (!user) {

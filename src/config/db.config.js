@@ -1,4 +1,3 @@
-require("dotenv").config();
 const mongoose = require("mongoose");
 
 // uri
@@ -7,7 +6,9 @@ const uri =
   process.env.MONGO_DB_USERNAME +
   ":" +
   process.env.MONGO_DB_PASSWORD +
-  "@task.cjnyztg.mongodb.net/?retryWrites=true&w=majority";
+  "@" +
+  process.env.MONGO_DB_NAME +
+  ".cjnyztg.mongodb.net/?retryWrites=true&w=majority";
 
 // options
 const options = {
@@ -22,5 +23,5 @@ const options = {
 
 mongoose
   .connect(uri, options)
-  .then(() => console.log("connected to Mongo Atlas"))
+  //.then(() => console.log("connected to Mongo Atlas"))
   .catch((error) => console.log(error));
